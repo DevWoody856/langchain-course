@@ -1,15 +1,27 @@
+from typing import List
 import os
 
 from dotenv import load_dotenv
 from langchain_tavily import TavilySearch
+from pydantic import BaseModel, Field
+
 
 load_dotenv()
 
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
-from schemas import AgentResponse
-from langchain_tavily import TavilySearch
+class Source(BaseModel):
+    """ Schema for a source used by the agent."""
+
+    url:str = Field(description="The URL of the source")
+
+
+class AgentResponse(BaseModel):
+    """ Schema for agent response with answer and sources."""
+
+    answer:str = Field(description="The agent's answer to the query")
+    sources: List[Source] = Field(default_factory=list, description="List of sources used to generate the answer")
 
 
 llm = ChatOpenAI(
@@ -17,6 +29,7 @@ llm = ChatOpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.environ.get("OPENROUTER_API_KEY"),
     temperature=0,
+    model_kwargs={"tool_choice": "auto"},
 )
 
 tools = [TavilySearch()]
@@ -26,7 +39,14 @@ agent = create_agent(model=llm, tools=tools)
 def main():
     print("Hello from langchain-course!")
     result = agent.invoke(
-        {"messages": [HumanMessage(content="What's the weather like in Tokyo?")]}
+        {
+            "messages": [
+                HumanMessage(
+                    content="search for 3 job postings for an ai engineer using langchain in the day area on linkedin"
+                )
+            ]
+        },
+        config={"recursion_limit": 100},
     )
     print(result)
 
