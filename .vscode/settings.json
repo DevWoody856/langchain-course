@@ -1,0 +1,23 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#0b1f3a",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "#0b1f3a",
+    "titleBar.inactiveForeground": "#ffffff",
+
+    "activityBar.background": "#0b1f3a",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#a9b7d0",
+    "activityBarBadge.background": "#1e3a66",
+    "activityBarBadge.foreground": "#ffffff",
+
+    "statusBar.background": "#0b1f3a",
+    "statusBar.foreground": "#ffffff",
+    "statusBarItem.hoverBackground": "#1e3a66",
+    "statusBar.debuggingBackground": "#0b1f3a",
+    "statusBar.debuggingForeground": "#ffffff"
+  },
+  "cSpell.words": [
+    "tavily"
+  ]
+}

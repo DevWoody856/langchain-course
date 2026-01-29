@@ -1,38 +1,34 @@
+import os
+
 from dotenv import load_dotenv
+from langchain_tavily import TavilySearch
 
 load_dotenv()
 
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage
+from schemas import AgentResponse
 from langchain_tavily import TavilySearch
 
-from schemas import AgentResponse
+
+llm = ChatOpenAI(
+    model="z-ai/glm-4.5-air:free",
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ.get("OPENROUTER_API_KEY"),
+    temperature=0,
+)
 
 tools = [TavilySearch()]
-llm = ChatOpenAI(model="gpt-4o")
-
-
-agent = create_agent(
-    model=llm,
-    tools=tools,
-    response_format=AgentResponse,
-)
+agent = create_agent(model=llm, tools=tools)
 
 
 def main():
+    print("Hello from langchain-course!")
     result = agent.invoke(
-        {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "search for 3 job postings for an ai engineer using langchain in the bay area on linkedin and list their details",
-                }
-            ]
-        }
+        {"messages": [HumanMessage(content="What's the weather like in Tokyo?")]}
     )
-    # Access structured response from the agent
-    structured = result.get("structured_response", None)
-    print(structured if structured is not None else result)
+    print(result)
 
 
 if __name__ == "__main__":
