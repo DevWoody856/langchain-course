@@ -11,6 +11,8 @@ load_dotenv()
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
+
+
 class Source(BaseModel):
     """ Schema for a source used by the agent."""
 
