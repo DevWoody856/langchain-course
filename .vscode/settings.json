@@ -2,12 +2,24 @@
   "cSpell.words": [
     "tavily"
   ],
+  "window.titleBarStyle": "custom",
   "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#0b1f3a",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "#0b1f3a",
+    "titleBar.inactiveForeground": "#ffffff",
+    "activityBar.background": "#0b1f3a",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#ffffff",
+    "activityBarBadge.background": "#0b1f3a",
+    "activityBarBadge.foreground": "#ffffff",
     "sideBar.background": "#0b1f3a",
     "sideBar.foreground": "#ffffff",
     "sideBarTitle.foreground": "#ffffff",
     "sideBarSectionHeader.background": "#0b1f3a",
     "sideBarSectionHeader.foreground": "#ffffff",
+    "statusBar.background": "#0b1f3a",
+    "statusBar.foreground": "#ffffff",
     "statusBar.noFolderBackground": "#0b1f3a"
   }
 }

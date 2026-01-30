@@ -8,7 +8,9 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
-from langchain.agents import create_agent
+from langchainhub import hub
+from langchain.agents import AgentExecutor, create_agent
+from langchain.agents.react.agent import create_react_agent
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 
@@ -25,7 +27,7 @@ class AgentResponse(BaseModel):
     answer:str = Field(description="The agent's answer to the query")
     sources: List[Source] = Field(default_factory=list, description="List of sources used to generate the answer")
 
-
+tools = [TavilySearch()]
 llm = ChatOpenAI(
     model="z-ai/glm-4.5-air:free",
     base_url="https://openrouter.ai/api/v1",
@@ -34,21 +36,20 @@ llm = ChatOpenAI(
     model_kwargs={"tool_choice": "auto"},
 )
 
-tools = [TavilySearch()]
-agent = create_agent(model=llm, tools=tools)
+react_prompt = hub.pull("hwchase17/react-agent")
+agent = create_react_agent(
+    model=llm, 
+    tools=tools,
+    prompt=react_prompt
+    )
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+chain = agent_executor
 
 
 def main():
     print("Hello from langchain-course!")
-    result = agent.invoke(
-        {
-            "messages": [
-                HumanMessage(
-                    content="search for 3 job postings for an ai engineer using langchain in the day area on linkedin"
-                )
-            ]
-        },
-        config={"recursion_limit": 100},
+    result = chain.invoke(
+        input={"input": "What are the latest advancements in AI technology?"}
     )
     print(result)
 
