@@ -4,6 +4,7 @@
   ],
   "window.titleBarStyle": "custom",
   "python.defaultInterpreterPath": ".venv\\Scripts\\python.exe",
+  "scm.diffDecorations": "none",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#0b1f3a",
     "titleBar.activeForeground": "#ffffff",
