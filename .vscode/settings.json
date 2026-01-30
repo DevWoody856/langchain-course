@@ -3,6 +3,7 @@
     "tavily"
   ],
   "window.titleBarStyle": "custom",
+  "python.defaultInterpreterPath": ".venv\\Scripts\\python.exe",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#0b1f3a",
     "titleBar.activeForeground": "#ffffff",
