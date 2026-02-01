@@ -38,6 +38,7 @@ agent_chain = create_agent(
     interrupt_after=["tools"],
 )
 
+
 def _build_structured_prompt(result: dict[str, Any]) -> list:
     messages = result.get("messages", []) if isinstance(result, dict) else []
     tool_messages = [msg for msg in messages if getattr(msg, "type", None) == "tool"]
@@ -52,10 +53,14 @@ def _build_structured_prompt(result: dict[str, Any]) -> list:
         "Return the answer in the following JSON format:\n"
         f"{format_instructions}"
     )
-    return [SystemMessage(content="You are a helpful assistant."), HumanMessage(content=prompt)]
+    return [
+        SystemMessage(content="You are a helpful assistant."),
+        HumanMessage(content=prompt),
+    ]
 
 
 extract_output = RunnableLambda(_build_structured_prompt)
+
 
 def _parse_or_fallback(text: str) -> AgentResponse:
     try:
@@ -70,11 +75,20 @@ parse_output = RunnableLambda(_parse_or_fallback)
 def main():
     print("Hello from langchain-course!")
     result = agent_chain.invoke(
-        {"messages": [{"role": "user", "content": "search for 3 jobs for an ai enginner using langchain in the bay area on linkedin and list their details"}]},
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "search for 3 jobs for an ai enginner using langchain in the bay area on linkedin and list their details",
+                }
+            ]
+        },
     )
     prompt_messages = extract_output.invoke(result)
     final_response = llm.invoke(prompt_messages)
-    parsed = parse_output.invoke(final_response.content if hasattr(final_response, "content") else "")
+    parsed = parse_output.invoke(
+        final_response.content if hasattr(final_response, "content") else ""
+    )
     messages = result.get("messages", []) if isinstance(result, dict) else []
     print("\n=== Answer ===")
     print(parsed.answer)
